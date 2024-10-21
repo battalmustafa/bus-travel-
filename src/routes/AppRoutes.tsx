@@ -8,7 +8,7 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/journey" element={<Journey />} /> {/* Add this route */}
+      <Route path="/journey" element={<Journey />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
