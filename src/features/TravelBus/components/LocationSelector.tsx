@@ -6,7 +6,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 interface LocationSelectorProps {
   label: string;
   value: string;
-  onChange: (value: string) => void;
+  onChange: (id: string, name: string) => void;
   className: string;
   locationId: string;
 }
@@ -16,6 +16,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
   value,
   onChange,
   className,
+  locationId,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [displayValue, setDisplayValue] = useState<string>('');
@@ -32,7 +33,9 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
       refetch(debouncedSearchTerm);
     }
   }, [debouncedSearchTerm, refetch]);
-
+useEffect(() => {
+  
+}, [locationId]);
   // Handle default value on initial load
   useEffect(() => {
     if (value && !displayValue) {
@@ -63,11 +66,12 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
 
   // Select location and close popover
   const handleSelect = (id: string, locationName: string) => {
-    onChange(id);
+    onChange(id, locationName);  // Pass both the id and name
     setDisplayValue(locationName);
     setSearchTerm(locationName);
     setOpenPopover(false);
   };
+  
 
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +79,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     setSearchTerm(newValue);
     setOpenPopover(true);
     if (newValue === '') {
-      onChange('');
+      onChange('','');
       setDisplayValue('');
     }
   };
@@ -101,7 +105,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
           <input
             ref={inputRef}
             type="text"
-            value={searchTerm}
+            value={value? value :searchTerm}
             onChange={handleInputChange}
             onFocus={handleInputFocus} // Trigger fetch on focus
             placeholder={label}
