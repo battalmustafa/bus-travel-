@@ -26,12 +26,14 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const isSearching = searchTerm !== displayValue;
 
+  // Trigger refetch based on debounced search term
   useEffect(() => {
-    if (debouncedSearchTerm) {
+    if (debouncedSearchTerm !== null) {
       refetch(debouncedSearchTerm);
     }
   }, [debouncedSearchTerm, refetch]);
 
+  // Handle default value on initial load
   useEffect(() => {
     if (value && !displayValue) {
       const location = locations.find(loc => loc.id.toString() === value);
@@ -42,6 +44,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     }
   }, [value, locations]);
 
+  // Close popover when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -58,6 +61,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     };
   }, [wrapperRef, displayValue, isSearching]);
 
+  // Select location and close popover
   const handleSelect = (id: string, locationName: string) => {
     onChange(id);
     setDisplayValue(locationName);
@@ -65,6 +69,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     setOpenPopover(false);
   };
 
+  // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setSearchTerm(newValue);
@@ -75,11 +80,13 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     }
   };
 
+  // Fetch all locations when input is focused
   const handleInputFocus = () => {
     setOpenPopover(true);
-    // Use the ref to select the input text
+    setSearchTerm(''); 
+    refetch(' ');
     if (inputRef.current) {
-      inputRef.current.select();
+      inputRef.current.select(); 
     }
   };
 
@@ -96,7 +103,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
             type="text"
             value={searchTerm}
             onChange={handleInputChange}
-            onFocus={handleInputFocus}
+            onFocus={handleInputFocus} // Trigger fetch on focus
             placeholder={label}
             className="w-full focus:outline-none cursor-pointer"
           />
