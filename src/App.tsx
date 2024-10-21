@@ -4,8 +4,7 @@ import AppRoutes from './routes/AppRoutes';
 import { useSession } from './hooks/useSession';
 
 const App: React.FC = () => {
-  const { sessionData, loading, error } = useSession();
-  console.log(sessionData)
+  useSession();
   return (
     <Router>
       <AppRoutes />

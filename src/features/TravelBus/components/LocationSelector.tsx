@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { LocationItem } from '../../../types/types';
 import { useGetBusLocations } from '../../../hooks/useGetBusLocations';
 import useDebounce from '../../../hooks/useDebounce';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -20,7 +19,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [displayValue, setDisplayValue] = useState<string>('');
-  const { locations, loading, error: fetchError, refetch } = useGetBusLocations(searchTerm);
+  const { locations, loading, refetch } = useGetBusLocations(searchTerm);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [openPopover, setOpenPopover] = useState<boolean>(false);
   const wrapperRef = useRef<HTMLDivElement>(null);

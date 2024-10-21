@@ -1,5 +1,5 @@
 import { getDefaultDate } from '../../../utils/utils';
-import React, { useState } from 'react';
+import React from 'react';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 interface DateSelectorProps {
   value: string;
@@ -7,11 +7,9 @@ interface DateSelectorProps {
 }
 
 const DateSelector: React.FC<DateSelectorProps> = ({ value, onChange }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDateChange = (dateValue: string) => {
     onChange(dateValue);
-    setIsDropdownOpen(false); // Close the dropdown after selection
   };
 
   const isTodaySelected = value === new Date().toISOString().split('T')[0];
@@ -32,7 +30,6 @@ const DateSelector: React.FC<DateSelectorProps> = ({ value, onChange }) => {
             onChange={(e) => handleDateChange(e.target.value)}
             min={new Date().toISOString().split('T')[0]}
             className="w-full focus:outline-none pr-10 appearance-none" // Hide the default date icon
-            onFocus={() => setIsDropdownOpen(true)}
           />
         </div>
       </div>

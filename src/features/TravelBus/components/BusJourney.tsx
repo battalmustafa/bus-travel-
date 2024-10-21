@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import LocationSelector from './LocationSelector';
+import React, { useState } from 'react';
 import useQueryParameters from '../../../hooks/useQueryParameters';
 import { useGetJourney } from '../../../hooks/useGetJourney';
 import OfferCard from './OfferCard';
@@ -12,9 +11,9 @@ interface BusJourneySearchProps {
 
 const BusJourney: React.FC<BusJourneySearchProps> = ({ className = '' }) => {
   const queryParameters = useQueryParameters();
-  const [originId, setOriginId] = useState<string>(queryParameters?.originId?.toString() || '');
-  const [destinationId, setDestinationId] = useState<string>(queryParameters?.destinationId?.toString() || '');
-  const [departureDate, setDepartureDate] = useState<string>(queryParameters?.departureDate || '');
+  const originId = (queryParameters?.originId?.toString() || '');
+  const destinationId = (queryParameters?.destinationId?.toString() || '');
+  const departureDate = (queryParameters?.departureDate || '')
   
   const { offers, loading, error } = useGetJourney({ originId, destinationId, departureDate });
 
@@ -26,7 +25,7 @@ const BusJourney: React.FC<BusJourneySearchProps> = ({ className = '' }) => {
   const indexOfFirstOffer = indexOfLastOffer - itemsPerPage;
   const currentOffers = offers.slice(indexOfFirstOffer, indexOfLastOffer);
 
-  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChangePage = (value: number) => {
     setCurrentPage(value);
   };
 
@@ -65,7 +64,7 @@ const BusJourney: React.FC<BusJourneySearchProps> = ({ className = '' }) => {
               <Pagination
                 count={Math.ceil(offers.length / itemsPerPage)}
                 page={currentPage}
-                onChange={handleChangePage}
+                onChange={(_event, page) => handleChangePage(page)}
                 variant="outlined"
                 shape="rounded"
               />

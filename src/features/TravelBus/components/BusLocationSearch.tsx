@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useGetBusLocations } from '../../../hooks/useGetBusLocations'; // Assuming this hook fetches locations data
 import {  getDefaultDate } from '../../../utils/utils';
 import LocationSelector from './LocationSelector';
 import DateSelector from './DateSelector';

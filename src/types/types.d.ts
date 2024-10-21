@@ -63,7 +63,7 @@ export interface Journey {
     currency: string;
     duration: string; 
     originalPrice: number;
-    internetPrice: number;
+    "internet-price": number;
     providerInternetPrice: number;
     booking: string | null;
     busName: string;
